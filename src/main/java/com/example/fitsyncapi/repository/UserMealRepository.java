@@ -17,4 +17,7 @@ public interface UserMealRepository extends JpaRepository<UserMealModel, Integer
 
     @Query("SELECT SUM(um.meal.calories) FROM UserMealModel um WHERE um.user.id = :userId AND um.mealDate = :mealDate")
     Double sumCaloriesByUserIdAndMealDate(int userId, LocalDate mealDate);
+
+    @Query("SELECT um FROM UserMealModel um WHERE um.user.id = :userId AND um.mealDate BETWEEN :startDate AND :endDate ORDER BY um.mealDate DESC")
+    List<UserMealModel> findMealsByUserIdAndDateRange(int userId, LocalDate startDate, LocalDate endDate);
 }

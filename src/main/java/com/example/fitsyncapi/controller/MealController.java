@@ -46,13 +46,24 @@ public class MealController {
 
     // 3. View all meals for a user on a specific date
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<UserMealModel>> getMealsByUserAndDate(@PathVariable int userId,
-                                                                     @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+    public ResponseEntity<List<UserMealModel>> getMealsByUserAndDate(
+            @PathVariable int userId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         List<UserMealModel> meals = mealService.getUserMealsForDate(userId, date);
         return ResponseEntity.ok(meals);
     }
 
-    // 4. Delete a logged meal
+    // 4. View meals history (date range)
+    @GetMapping("/history")
+    public ResponseEntity<List<UserMealModel>> getMealsByUserAndDateRange(
+            @RequestParam int userId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        List<UserMealModel> meals = mealService.getUserMealsForDateRange(userId, startDate, endDate);
+        return ResponseEntity.ok(meals);
+    }
+
+    // 5. Delete a logged meal
     @DeleteMapping("/user-log/{id}")
     public ResponseEntity<Void> deleteUserMealLog(@PathVariable int id) {
         mealService.deleteUserMealById(id);

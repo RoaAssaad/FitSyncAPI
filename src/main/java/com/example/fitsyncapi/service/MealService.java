@@ -57,6 +57,10 @@ public class MealService {
         return userMealRepository.findByUserIdAndMealDate(userId, date);
     }
 
+    public List<UserMealModel> getUserMealsForDateRange(int userId, LocalDate startDate, LocalDate endDate) {
+        return userMealRepository.findMealsByUserIdAndDateRange(userId, startDate, endDate);
+    }
+
     public void deleteUserMealById(int id) {
         userMealRepository.deleteById(id);
     }
