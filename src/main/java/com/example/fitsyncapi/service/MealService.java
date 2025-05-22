@@ -5,7 +5,6 @@ import com.example.fitsyncapi.model.User;
 import com.example.fitsyncapi.model.UserMealModel;
 import com.example.fitsyncapi.repository.MealRepository;
 import com.example.fitsyncapi.repository.UserMealRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -46,13 +45,12 @@ public class MealService {
         mealRepository.deleteById(id);
     }
 
-    @Transactional
     public UserMealModel logUserMeal(User user, MealModel meal, LocalDate date) {
-        UserMealModel log = new UserMealModel();
-        log.setUser(user);
-        log.setMeal(meal);
-        log.setMealDate(date);
-        return userMealRepository.save(log);
+        UserMealModel userMeal = new UserMealModel();
+        userMeal.setUser(user);
+        userMeal.setMeal(meal);
+        userMeal.setMealDate(date);
+        return userMealRepository.save(userMeal);
     }
 
     public List<UserMealModel> getUserMealsForDate(int userId, LocalDate date) {
