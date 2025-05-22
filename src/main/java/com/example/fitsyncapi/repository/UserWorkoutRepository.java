@@ -16,9 +16,13 @@ public interface UserWorkoutRepository extends JpaRepository<UserWorkoutModel, I
 
     List<UserWorkoutModel> findByUserAndCompletionDate(User user, LocalDate date);
 
+    // Custom query to sum burned calories for daily summary
     @Query("SELECT SUM(w.duration) " +
             "FROM UserWorkoutModel uw " +
             "JOIN uw.workout w " +
             "WHERE uw.user.id = :userId AND uw.completionDate = :date")
     Double sumCaloriesBurnedByUserIdAndDate(int userId, LocalDate date);
+
+
+    List<UserWorkoutModel> findByUserIdAndCompletionDate(int userId, LocalDate date);
 }
