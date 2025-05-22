@@ -1,5 +1,6 @@
 package com.example.fitsyncapi.service.impl;
 
+import com.example.fitsyncapi.dto.UserUpdateDTO;
 import com.example.fitsyncapi.model.User;
 import com.example.fitsyncapi.repository.UserRepository;
 import com.example.fitsyncapi.service.UserService;
@@ -58,5 +59,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Integer id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public User updateUserFields(Integer id, UserUpdateDTO dto) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    if (dto.getName() != null && !dto.getName().isBlank()) user.setName(dto.getName());
+                    if (dto.getPassword() != null && !dto.getPassword().isBlank()) user.setPassword(dto.getPassword());
+                    if (dto.getAge() != null) user.setAge(dto.getAge());
+                    if (dto.getGender() != null) user.setGender(dto.getGender());
+                    if (dto.getWeight() != null) user.setWeight(dto.getWeight());
+                    if (dto.getHeight() != null) user.setHeight(dto.getHeight());
+                    return userRepository.save(user);
+                })
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }

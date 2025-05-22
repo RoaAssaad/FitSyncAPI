@@ -1,5 +1,6 @@
 package com.example.fitsyncapi.service;
 
+import com.example.fitsyncapi.dto.UserUpdateDTO;
 import com.example.fitsyncapi.model.User;
 
 import java.util.List;
@@ -12,4 +13,7 @@ public interface UserService {
     List<User> getAllUsers();
     User updateUser(Integer id, User user);
     void deleteUser(Integer id);
+
+    // Update specific profile fields (e.g. name, weight)
+    User updateUserFields(Integer id, UserUpdateDTO dto);
 }

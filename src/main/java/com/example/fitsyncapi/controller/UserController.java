@@ -1,5 +1,6 @@
 package com.example.fitsyncapi.controller;
 
+import com.example.fitsyncapi.dto.UserUpdateDTO;
 import com.example.fitsyncapi.model.User;
 import com.example.fitsyncapi.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,6 +48,12 @@ public class UserController {
     @Operation(summary = "Update user by ID")
     public ResponseEntity<User> updateUser(@PathVariable Integer id, @Valid @RequestBody User user) {
         return ResponseEntity.ok(userService.updateUser(id, user));
+    }
+
+    @PatchMapping("/{id}")
+    @Operation(summary = "Partially update user by ID (name, password, age, gender, weight, height)")
+    public ResponseEntity<User> updateUserFields(@PathVariable Integer id, @RequestBody UserUpdateDTO dto) {
+        return ResponseEntity.ok(userService.updateUserFields(id, dto));
     }
 
     @DeleteMapping("/{id}")
