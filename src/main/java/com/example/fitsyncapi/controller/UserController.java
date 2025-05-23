@@ -29,6 +29,15 @@ public class UserController {
     public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
         return ResponseEntity.ok(userService.createUser(user));
     }
+    @GetMapping("/login")
+    @Operation(summary = "Login user with email and password")
+    public ResponseEntity<User> loginUser(@RequestParam String email, @RequestParam String password) {
+        return userService.getUserByEmail(email)
+                .filter(user -> user.getPassword().equals(password))
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(401).build());
+    }
+
 
     @GetMapping("/{id}")
     @Operation(summary = "Get user by ID")
