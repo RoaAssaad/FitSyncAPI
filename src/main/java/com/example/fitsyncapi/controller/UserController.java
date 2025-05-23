@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,15 +30,6 @@ public class UserController {
     public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
         return ResponseEntity.ok(userService.createUser(user));
     }
-    @GetMapping("/login")
-    @Operation(summary = "Login user with email and password")
-    public ResponseEntity<User> loginUser(@RequestParam String email, @RequestParam String password) {
-        return userService.getUserByEmail(email)
-                .filter(user -> user.getPassword().equals(password))
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.status(401).build());
-    }
-
 
     @GetMapping("/{id}")
     @Operation(summary = "Get user by ID")
@@ -70,5 +62,14 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/login")
+    @Operation(summary = "Login user by email and password")
+    public ResponseEntity<User> login(@RequestParam String email, @RequestParam String password) {
+        return userService.getUserByEmail(email)
+                .filter(user -> user.getPassword().equals(password))
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
     }
 }
