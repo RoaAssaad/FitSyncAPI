@@ -69,4 +69,9 @@ public class MealController {
         mealService.deleteUserMealById(id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/all")
+    public ResponseEntity<List<MealModel>> getAllMeals() {
+        return ResponseEntity.ok(mealService.getAllMeals());
+    }
+
 }
