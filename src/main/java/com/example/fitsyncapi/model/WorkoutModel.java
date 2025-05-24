@@ -1,6 +1,8 @@
 package com.example.fitsyncapi.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
 import java.util.List;
 
 @Entity
@@ -15,10 +17,13 @@ public class WorkoutModel {
     private String name;
 
     @Column(nullable = false)
-    private int duration; // total calories burned or minutes
+    private int duration; // calories burned or duration in minutes
 
-    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<UserWorkoutModel> userWorkouts;
+
+    public WorkoutModel() {}
 
     // Getters and setters
     public int getId() {

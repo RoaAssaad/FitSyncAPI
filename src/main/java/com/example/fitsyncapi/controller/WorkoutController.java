@@ -71,4 +71,10 @@ public class WorkoutController {
         workoutService.deleteUserWorkoutById(id);
         return ResponseEntity.noContent().build();
     }
+    // Get all workouts
+    @GetMapping("/all")
+    public ResponseEntity<List<WorkoutModel>> getAll() {
+        return ResponseEntity.ok(workoutService.getAllWorkouts());
+    }
+
 }

@@ -1,6 +1,8 @@
 package com.example.fitsyncapi.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
 @Entity
@@ -13,10 +15,12 @@ public class UserWorkoutModel {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "workout_id", nullable = false)
+    @JsonBackReference
     private WorkoutModel workout;
 
     @Column(name = "completion_date", nullable = false)

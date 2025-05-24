@@ -1,11 +1,9 @@
 package com.example.fitsyncapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -13,55 +11,121 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
-    @NotBlank(message = "Name is required")
+    @Column(nullable = false)
     private String name;
 
-    @NotBlank(message = "Email is required")
-    @Email(message = "Invalid email format")
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @NotBlank(message = "Password is required")
+    @Column(nullable = false)
     private String password;
 
-    @NotNull(message = "Age is required")
-    private Integer age;
-
-    @Column(length = 1) // 'M' or 'F'
+    private int age;
     private String gender;
+    private double weight;
+    private double height;
 
-    private Double weight;
-    private Double height;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<UserMealModel> userMeals;
 
-    //shi dot lazy bteje bas taaytila, eager bteje maa al object b emo w abu
-    @OneToMany()
-    Collection<UserWorkoutModel> workouts;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<UserWorkoutModel> userWorkouts;
 
-    // Getters & setters
+    // Constructors
+    public User() {}
 
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+    public User(String name, String email, String password, int age, String gender, double weight, double height) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.age = age;
+        this.gender = gender;
+        this.weight = weight;
+        this.height = height;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    // Getters and Setters
+    public int getId() {
+        return id;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public String getName() {
+        return name;
+    }
 
-    public Integer getAge() { return age; }
-    public void setAge(Integer age) { this.age = age; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public String getGender() { return gender; }
-    public void setGender(String gender) { this.gender = gender; }
+    public String getEmail() {
+        return email;
+    }
 
-    public Double getWeight() { return weight; }
-    public void setWeight(Double weight) { this.weight = weight; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public Double getHeight() { return height; }
-    public void setHeight(Double height) { this.height = height; }
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public List<UserMealModel> getUserMeals() {
+        return userMeals;
+    }
+
+    public void setUserMeals(List<UserMealModel> userMeals) {
+        this.userMeals = userMeals;
+    }
+
+    public List<UserWorkoutModel> getUserWorkouts() {
+        return userWorkouts;
+    }
+
+    public void setUserWorkouts(List<UserWorkoutModel> userWorkouts) {
+        this.userWorkouts = userWorkouts;
+    }
 }
