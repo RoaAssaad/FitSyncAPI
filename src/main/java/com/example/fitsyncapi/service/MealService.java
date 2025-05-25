@@ -30,14 +30,19 @@ public class MealService {
         return mealRepository.findById(id);
     }
 
-    public MealModel createOrUpdateMeal(String foodName, double calories, String mealType) {
-        MealModel meal = mealRepository.findByFoodName(foodName)
-                .orElse(new MealModel());
-
+    public MealModel createMeal(String foodName, double calories, String mealType) {
+        MealModel meal = new MealModel();
         meal.setFoodName(foodName);
         meal.setCalories(calories);
         meal.setMealType(mealType);
+        return mealRepository.save(meal);
+    }
 
+    public MealModel updateMeal(int id, String foodName, double calories, String mealType) {
+        MealModel meal = mealRepository.findById(id).orElseThrow();
+        meal.setFoodName(foodName);
+        meal.setCalories(calories);
+        meal.setMealType(mealType);
         return mealRepository.save(meal);
     }
 

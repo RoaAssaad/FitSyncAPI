@@ -24,54 +24,70 @@ public class MealController {
         this.userService = userService;
     }
 
-    // 1. Create or update a meal
-    @PostMapping
-    public ResponseEntity<MealModel> createOrUpdateMeal(@RequestParam String foodName,
-                                                        @RequestParam double calories,
-                                                        @RequestParam String mealType) {
-        MealModel meal = mealService.createOrUpdateMeal(foodName, calories, mealType);
+    // 1. Create a meal (allows duplicates)
+    @PostMapping("/create")
+    public ResponseEntity<MealModel> createMeal(@RequestParam String foodName,
+                                                @RequestParam double calories,
+                                                @RequestParam String mealType) {
+        MealModel meal = mealService.createMeal(foodName, calories, mealType);
         return ResponseEntity.ok(meal);
     }
 
-    // 2. Log a meal for a user
+    // 2. Update an existing meal by ID
+    @PutMapping("/update")
+    public ResponseEntity<MealModel> updateMeal(@RequestParam int id,
+                                                @RequestParam String foodName,
+                                                @RequestParam double calories,
+                                                @RequestParam String mealType) {
+        MealModel updated = mealService.updateMeal(id, foodName, calories, mealType);
+        return ResponseEntity.ok(updated);
+    }
+
+    // 3. Delete a meal by ID
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteMeal(@PathVariable int id) {
+        mealService.deleteMealById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    // 4. Log a meal for a user
     @PostMapping("/log")
     public ResponseEntity<UserMealModel> logMeal(@RequestParam int userId,
                                                  @RequestParam int mealId,
                                                  @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         User user = userService.getUserById(userId).orElseThrow();
         MealModel meal = mealService.getMealById(mealId).orElseThrow();
-        UserMealModel loggedMeal = mealService.logUserMeal(user, meal, date);
-        return ResponseEntity.ok(loggedMeal);
+        UserMealModel logged = mealService.logUserMeal(user, meal, date);
+        return ResponseEntity.ok(logged);
     }
 
-    // 3. View all meals for a user on a specific date
+    // 5. View all meals for a user on a specific date
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<UserMealModel>> getMealsByUserAndDate(
             @PathVariable int userId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        List<UserMealModel> meals = mealService.getUserMealsForDate(userId, date);
-        return ResponseEntity.ok(meals);
+        return ResponseEntity.ok(mealService.getUserMealsForDate(userId, date));
     }
 
-    // 4. View meals history (date range)
+    // 6. View meals history (date range)
     @GetMapping("/history")
     public ResponseEntity<List<UserMealModel>> getMealsByUserAndDateRange(
             @RequestParam int userId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-        List<UserMealModel> meals = mealService.getUserMealsForDateRange(userId, startDate, endDate);
-        return ResponseEntity.ok(meals);
+        return ResponseEntity.ok(mealService.getUserMealsForDateRange(userId, startDate, endDate));
     }
 
-    // 5. Delete a logged meal
+    // 7. Delete a user meal log by its ID
     @DeleteMapping("/user-log/{id}")
     public ResponseEntity<Void> deleteUserMealLog(@PathVariable int id) {
         mealService.deleteUserMealById(id);
         return ResponseEntity.noContent().build();
     }
+
+    // 8. Get all meals
     @GetMapping("/all")
     public ResponseEntity<List<MealModel>> getAllMeals() {
         return ResponseEntity.ok(mealService.getAllMeals());
     }
-
 }
