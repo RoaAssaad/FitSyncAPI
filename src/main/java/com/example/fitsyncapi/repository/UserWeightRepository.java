@@ -15,6 +15,6 @@ public interface UserWeightRepository extends JpaRepository<UserWeightModel, Use
     // Fetch weights by user, ordered by date
     List<UserWeightModel> findByUserIdOrderByDateAsc(int userId);
 
-    // Optional: fetch a specific day's weight for a user
+    //  fetch a specific day's weight for a user
     Optional<UserWeightModel> findByUserIdAndDate(int userId, LocalDate date);
 }

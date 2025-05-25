@@ -30,7 +30,7 @@ public class WorkoutController {
         return ResponseEntity.ok(workoutService.getAllWorkouts());
     }
 
-    // 2. Create a new workout (no longer deduplicates by name)
+    // 2. Create a new workout
     @PostMapping
     public ResponseEntity<WorkoutModel> createWorkout(@RequestParam String name,
                                                       @RequestParam int duration) {

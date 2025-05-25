@@ -24,7 +24,7 @@ public class MealController {
         this.userService = userService;
     }
 
-    // 1. Create a meal (allows duplicates)
+    // 1. Create a meal
     @PostMapping("/create")
     public ResponseEntity<MealModel> createMeal(@RequestParam String foodName,
                                                 @RequestParam double calories,

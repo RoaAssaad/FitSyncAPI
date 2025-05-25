@@ -19,24 +19,21 @@ public class UserWeightService {
         this.userWeightRepository = userWeightRepository;
     }
 
-    /**
-     * Logs or updates a user's weight for a specific date.
-     */
+// Logs or updates a user's weight for a specific date.
+
     public UserWeightModel saveOrUpdateWeight(int userId, LocalDate date, double weight) {
         UserWeightModel weightEntry = new UserWeightModel(userId, date, weight);
         return userWeightRepository.save(weightEntry); // save() handles both insert and update based on PK
     }
 
-    /**
-     * Gets all logged weights for a user, ordered by date.
-     */
+// Gets all logged weights for a user, ordered by date.
+
     public List<UserWeightModel> getUserWeights(int userId) {
         return userWeightRepository.findByUserIdOrderByDateAsc(userId);
     }
 
-    /**
-     * Fetches a specific weight entry by user and date, if needed.
-     */
+ //Fetches a specific weight entry by user and date, if needed.
+
     public Optional<UserWeightModel> getWeightByDate(int userId, LocalDate date) {
         return userWeightRepository.findByUserIdAndDate(userId, date);
     }

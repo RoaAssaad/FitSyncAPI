@@ -21,7 +21,6 @@ public class WeeklyProgressController {
 
     @GetMapping
     public ResponseEntity<List<WeeklyProgressDTO>> getWeeklyProgress(@RequestParam("userId") int userId) {
-        // In real-world app, you'd extract user from security context (e.g., JWT). Here, userId is passed directly.
         User user = new User();
         user.setId(userId);
 
