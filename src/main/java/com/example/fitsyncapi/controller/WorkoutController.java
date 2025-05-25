@@ -25,27 +25,36 @@ public class WorkoutController {
     }
 
     // 1. Get all workouts
-    @GetMapping
-    public List<WorkoutModel> getAllWorkouts() {
-        return workoutService.getAllWorkouts();
+    @GetMapping("/all")
+    public ResponseEntity<List<WorkoutModel>> getAllWorkouts() {
+        return ResponseEntity.ok(workoutService.getAllWorkouts());
     }
 
-    // 2. Create or update a workout
+    // 2. Create a new workout (no longer deduplicates by name)
     @PostMapping
-    public ResponseEntity<WorkoutModel> createOrUpdateWorkout(@RequestParam String name,
-                                                              @RequestParam int duration) {
-        WorkoutModel workout = workoutService.createOrUpdateWorkout(name, duration);
+    public ResponseEntity<WorkoutModel> createWorkout(@RequestParam String name,
+                                                      @RequestParam int duration) {
+        WorkoutModel workout = workoutService.createWorkout(name, duration);
         return ResponseEntity.ok(workout);
     }
 
-    // 3. Delete workout by ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteWorkout(@PathVariable int id) {
+    // 3. Update a workout by ID
+    @PutMapping("/update")
+    public ResponseEntity<WorkoutModel> updateWorkoutById(@RequestParam int id,
+                                                          @RequestParam String name,
+                                                          @RequestParam int duration) {
+        WorkoutModel workout = workoutService.updateWorkoutById(id, name, duration);
+        return ResponseEntity.ok(workout);
+    }
+
+    // 4. Delete a workout by ID
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteWorkoutById(@PathVariable int id) {
         workoutService.deleteWorkoutById(id);
         return ResponseEntity.noContent().build();
     }
 
-    // 4. Log a workout for a user
+    // 5. Log a workout for a user
     @PostMapping("/log")
     public ResponseEntity<UserWorkoutModel> logWorkout(@RequestParam int userId,
                                                        @RequestParam int workoutId,
@@ -56,7 +65,7 @@ public class WorkoutController {
         return ResponseEntity.ok(logged);
     }
 
-    // 5. Get workouts logged by a user on a date
+    // 6. Get logged workouts for user on specific date
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<UserWorkoutModel>> getUserWorkouts(@PathVariable int userId,
                                                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
@@ -65,16 +74,10 @@ public class WorkoutController {
         return ResponseEntity.ok(list);
     }
 
-    // 6. Delete a specific user workout record
+    // 7. Delete a specific user workout log
     @DeleteMapping("/user-log/{id}")
     public ResponseEntity<Void> deleteUserWorkoutLog(@PathVariable int id) {
         workoutService.deleteUserWorkoutById(id);
         return ResponseEntity.noContent().build();
     }
-    // Get all workouts
-    @GetMapping("/all")
-    public ResponseEntity<List<WorkoutModel>> getAll() {
-        return ResponseEntity.ok(workoutService.getAllWorkouts());
-    }
-
 }

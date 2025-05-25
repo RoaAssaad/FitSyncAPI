@@ -31,9 +31,17 @@ public class WorkoutService {
         return workoutRepository.findById(id);
     }
 
-    public WorkoutModel createOrUpdateWorkout(String name, int duration) {
-        WorkoutModel workout = workoutRepository.findByName(name)
-                .orElse(new WorkoutModel());
+    // Always create a new workout — no longer depends on name uniqueness
+    public WorkoutModel createWorkout(String name, int duration) {
+        WorkoutModel workout = new WorkoutModel();
+        workout.setName(name);
+        workout.setDuration(duration);
+        return workoutRepository.save(workout);
+    }
+
+    // Update existing workout by ID
+    public WorkoutModel updateWorkoutById(int id, String name, int duration) {
+        WorkoutModel workout = workoutRepository.findById(id).orElseThrow();
         workout.setName(name);
         workout.setDuration(duration);
         return workoutRepository.save(workout);
