@@ -98,16 +98,3 @@ spring.jpa.show-sql=true
 
 ---
 
-##   Main Endpoints Overview
-
-| Method | Endpoint                  | Description                        |
-|--------|---------------------------|------------------------------------|
-| GET    | /api/v1/meals             | Get all meals                      |
-| POST   | /api/v1/user-meals        | Log a meal for a user              |
-| PUT    | /api/v1/user-workouts     | Update a workout log               |
-| DELETE | /api/v1/user-meals/{id}   | Delete a logged meal               |
-| GET    | /api/today/{userId}       | Get today’s calorie summary        |
-| GET    | /api/v1/weekly-progress   | Get 7-day calories chart           |
-
----
-
