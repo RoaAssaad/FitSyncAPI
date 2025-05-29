@@ -1,8 +1,9 @@
-#  FitSync Backend – Spring Boot Fitness API
+# FitSync Backend – Spring Boot Fitness API
 
 This is the **backend** for the FitSync fitness tracking application. It provides a complete REST API for managing users, meals, workouts, calorie summaries, goals, weight logs, and personalized workout recommendations.
 
-Built with **Java (Amazon Corretto 23)**, **Spring Boot**, **Spring Data JPA**, **Hibernate**, and **MySQL**.
+Built with **Java (Amazon Corretto 23)**, **Spring Boot**, **Spring Data JPA**, **Hibernate**, and **MySQL**.  
+**Connected to the JavaFX frontend:** [FitSync UI Repository](https://github.com/RoaAssaad/FitSync-UI)
 
 ---
 
@@ -58,7 +59,6 @@ src/
 ├── repository/         # Spring Data Repositories
 ├── service/            # Business Logic
 ├── dto/                # Data Transfer Objects
-
 ```
 
 ---
@@ -97,4 +97,9 @@ spring.jpa.show-sql=true
 ```
 
 ---
+
+## 🔗 Frontend
+
+This backend is fully integrated with the JavaFX frontend available at:  
+[https://github.com/RoaAssaad/FitSync-UI](https://github.com/RoaAssaad/FitSync-UI)
 
