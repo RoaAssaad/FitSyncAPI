@@ -50,7 +50,7 @@ Import `fitsync.sql` to set up your schema.
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```
 src/
@@ -98,7 +98,7 @@ spring.jpa.show-sql=true
 
 ---
 
-## 🔗 Frontend
+##  Frontend
 
 This backend is fully integrated with the JavaFX frontend available at:  
 [https://github.com/RoaAssaad/FitSync-UI](https://github.com/RoaAssaad/FitSync-UI)
