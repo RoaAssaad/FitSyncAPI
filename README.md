@@ -20,7 +20,7 @@ Built with **Java (Amazon Corretto 23)**, **Spring Boot**, **Spring Data JPA**, 
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - **Java 23 (Amazon Corretto)**
 - **JDBC**  
